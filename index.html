@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cool Title</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+  <header class="header">
+    <h1>Task Board</h1>
+  </header>
+
+  <main class="main">
+
+    <section class="tasks-control">
+      <button id="btn-add">New Task</button>
+      <input type="text" id="task-search" placeholder="Search tasks...">
+
+      <div class="filters-container">
+        <span>Filter:</span>
+        <button id="filter-all" class="active">All</button>
+        <button id="filter-high">High</button>
+        <button id="filter-medium">Medium</button>
+        <button id="filter-low">Low</button> 
+      </div>
+    </section>
+
+    <section class="tasks-container">
+      
+      <article class="board-column">
+        <header class="column-header">
+          <h2>TO DO</h2>
+          <span class="tasks-amount" id="to-do-amount">0</span>
+        </header>
+        <div class="drop-zone" data-column="todo" id="todo-zone"></div>
+      </article>
+
+      <article class="board-column">
+        <header class="column-header">
+          <h2>IN PROGRESS</h2>
+          <span class="tasks-amount" id="in-progress-amount">0</span>
+        </header>
+        <div class="drop-zone" data-column="inprogress" id="inprogress-zone"></div>
+      </article>
+
+      <article class="board-column">
+        <header class="column-header">
+          <h2>DONE</h2>
+          <span class="tasks-amount" id="done-amount">0</span>
+        </header>
+        <div class="drop-zone" data-column="done" id="done-zone"></div>
+      </article>
+      
+    </section>
+
+    <section class="modal-wrapper" id="modal-wrapper">
+      <div class="modal-window">
+        <form class="task-add-form" id="task-form">
+          
+          <label for="title-input">Title:</label>
+          <input type="text" id="title-input" required>
+
+          <div class="priority-container">
+            <span>Priority:</span>
+            <button type="button" class="btn-priority" data-priority="high">High</button>
+            <button type="button" class="btn-priority" data-priority="medium">Medium</button>
+            <button type="button" class="btn-priority" data-priority="low">Low</button>
+          </div>
+
+          <label for="description-input">Description:</label>
+          <textarea id="description-input" required></textarea>
+
+          <div class="form-actions">
+            <button type="submit" id="btn-save">Save</button>
+            <button type="button" id="btn-cancel">Cancel</button>
+          </div>
+          
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+ 
+<script src="script.js"></script>
+</body>
+</html>
