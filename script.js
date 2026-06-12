@@ -33,7 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const savedTasks = localStorage.getItem("kanban-tasks");
   let tasks = savedTasks ? JSON.parse(savedTasks) : [];
+
   let currentSelectedPriority = 'medium';
+  let searchQuery = "";
 
   renderBoard();
 
@@ -67,6 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal();
     renderBoard();
   });
+
+  taskSearch.addEventListener("input", event => {
+    searchQuery = event.target.value.toLowerCase().trim();
+    renderBoard();
+  })
 
   tasksContainer.addEventListener("dragstart", event => {
     const card = event.target.closest(".task-card");
@@ -117,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoard();
   })
 
+
   function closeModal() {
     modalWrapper.classList.remove("open");
     titleInput.value = "";
@@ -152,6 +160,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let countDone = 0;
 
     tasks.forEach(task => {
+
+      const taskTitle = task.title.toLowerCase();
+      const taskDesc = task.description.toLowerCase();
+
+      if (searchQuery && !taskTitle.includes(searchQuery) && !taskDesc.includes(searchQuery)) {
+        return;
+      }
+
       const cardHTML = `
       <div class="task-card" draggable="true" data-id="${task.id}">
         <span class="badge badge-${task.priority}">${task.priority}</span>
