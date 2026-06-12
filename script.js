@@ -66,6 +66,55 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoard();
   });
 
+  tasksContainer.addEventListener("dragstart", event => {
+    const card = event.target.closest(".task-card");
+    if (!card) return;
+
+    event.dataTransfer.setData("text/plain", card.dataset.id);
+    setTimeout(() => card.style.opacity = "0.5", 0);
+  });
+
+  tasksContainer.addEventListener("dragend", event => {
+    const card = event.target.closest(".task-card");
+    if (card) card.style.opacity = "1";
+
+    document.querySelectorAll(".drop-zone").forEach(zone => {
+      zone.classList.remove("drag-over");
+    });
+  });
+
+  tasksContainer.addEventListener("dragover", event => {
+    const dropZone = event.target.closest(".drop-zone");
+    if (!dropZone) return;
+
+    event.preventDefault();
+    dropZone.classList.add("drag-over");
+  });
+
+  tasksContainer.addEventListener("dragleave", event => {
+    const dropZone = event.target.closest(".drop-zone");
+    if (dropZone) dropZone.classList.remove("drag-over");
+  })
+
+  tasksContainer.addEventListener("drop", event => {
+    const dropZone = event.target.closest(".drop-zone");
+    if (!dropZone) return;
+
+    event.preventDefault();
+    dropZone.classList.remove("drag-over");
+
+    const draggedTaskId = event.dataTransfer.getData("text/plain");
+    const targetColumnName = dropZone.dataset.column;
+
+    tasks = tasks.map(task => {
+      if (task.id === draggedTaskId) {
+        return { ...task, column: targetColumnName };
+      }
+      return task;
+    });
+    renderBoard();
+  })
+
   function closeModal() {
     modalWrapper.classList.remove("open");
     titleInput.value = "";
