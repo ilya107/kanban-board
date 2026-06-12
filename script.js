@@ -31,9 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const tasksContainer = document.querySelector(".tasks-container");
 
-  let tasks = [];
+  const savedTasks = localStorage.getItem("kanban-tasks");
+  let tasks = savedTasks ? JSON.parse(savedTasks) : [];
   let currentSelectedPriority = 'medium';
-  
+
+  renderBoard();
 
   btnAdd.addEventListener("click", () => {
     modalWrapper.classList.add("open");
@@ -136,6 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
     tasks.push(newTask);
   }
 
+  function saveToLocalStorage() {
+    localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
+  }
+
   function renderBoard() {
     todoZone.innerHTML = "";
     inprogressZone.innerHTML = "";
@@ -171,5 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
     todoAmount.textContent = countTodo;
     inprogressAmount.textContent = countInProgress;
     doneAmount.textContent = countDone;
+    saveToLocalStorage();
   }
 });
