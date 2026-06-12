@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const inprogressAmount = document.getElementById("in-progress-amount");
   const doneAmount = document.getElementById("done-amount");
   
+  const tasksContainer = document.querySelector(".tasks-container");
+
   let tasks = [];
   let currentSelectedPriority = 'medium';
   
@@ -43,9 +45,18 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
       priorityButtons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-
       currentSelectedPriority = btn.dataset.priority;
     });
+  });
+
+  tasksContainer.addEventListener("click", event => {
+    const eventTarget = event.target;
+    const isDeleteBtn = eventTarget.classList.contains("btn-delete");
+    if (!isDeleteBtn) return;
+    const delTaskId = event.target.dataset.id;
+
+    tasks = tasks.filter(task => task.id !== delTaskId);
+    renderBoard();
   });
 
   taskForm.addEventListener("submit", event => {
