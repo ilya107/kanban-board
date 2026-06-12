@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentSelectedPriority = 'medium';
   let searchQuery = "";
+  let editingTaskId = null;
 
   renderBoard();
 
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalWrapper.classList.add("open");
   });
 
-  btnCancel.addEventListener("click", closeModal);
+  btnCancel.addEventListener("click", closeModalAndReset);
 
   priorityButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -56,17 +57,55 @@ document.addEventListener("DOMContentLoaded", () => {
   tasksContainer.addEventListener("click", event => {
     const eventTarget = event.target;
     const isDeleteBtn = eventTarget.classList.contains("btn-delete");
-    if (!isDeleteBtn) return;
-    const delTaskId = event.target.dataset.id;
+    const isEditBtn = eventTarget.classList.contains("btn-edit");
 
-    tasks = tasks.filter(task => task.id !== delTaskId);
-    renderBoard();
+    if (!isDeleteBtn && !isEditBtn) return;
+
+    const cardId = eventTarget.dataset.id;
+
+    if (isDeleteBtn) {
+      tasks = tasks.filter(task => task.id !== cardId);
+      renderBoard();
+    } else {
+      editingTaskId = cardId;
+
+      const taskToEdit = tasks.find(task => task.id === cardId);
+      if (!taskToEdit) return;
+
+      titleInput.value = taskToEdit.title;
+      descriptionInput.value = taskToEdit.description;
+
+      currentSelectedPriority = taskToEdit.priority;
+      priorityButtons.forEach(b => b.classList.remove("active"));
+
+      const activePriorityBtn = document.querySelector(`.btn-priority[data-priority="${taskToEdit.priority}"]`);
+      if (activePriorityBtn) activePriorityBtn.classList.add("active");
+
+      btnSave.textContent = "Save Changes";
+      modalWrapper.classList.add("open");
+    }
   });
 
   taskForm.addEventListener("submit", event => {
     event.preventDefault();
-    addTask();
-    closeModal();
+
+    if (editingTaskId) {
+      tasks = tasks.map(task => {
+        if (task.id === editingTaskId) {
+          return {
+            ...task,
+            title: titleInput.value.trim(),
+            description: descriptionInput.value.trim(),
+            priority: currentSelectedPriority
+          };
+        }
+        return task;
+      });
+    } else {
+      addTask();
+    }
+
+    closeModalAndReset();
     renderBoard();
   });
 
@@ -124,11 +163,13 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoard();
   })
 
-
-  function closeModal() {
+  function closeModalAndReset() {
     modalWrapper.classList.remove("open");
     titleInput.value = "";
     descriptionInput.value = "";
+
+    editingTaskId = null;
+    btnSave.textContent = "Save";
 
     currentSelectedPriority = 'medium';
     priorityButtons.forEach(b => b.classList.remove("active"));
