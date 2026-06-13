@@ -173,8 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeModalAndReset() {
     modalWrapper.classList.remove("open");
-    titleInput.value = "";
-    descriptionInput.value = "";
+    taskForm.reset();
 
     editingTaskId = null;
     btnSave.textContent = "Save";

@@ -258,6 +258,22 @@ body {
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
   font-family: inherit;
+  outline: none;
+}
+
+.task-add-form input[type="text"]:user-invalid {
+  border-color: var(--color-high);
+  background-color: #fff1f0;
+}
+
+.task-add-form input[type="text"]:user-valid {
+  border-color: var(--color-low);
+  background-color: #fff;
+}
+
+.task-add-form input[type="text"]:user-invalid:focus {
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+  outline: none;
 }
 
 .priority-container {
