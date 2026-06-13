@@ -224,7 +224,7 @@ body {
   
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s ease-out;
 }
 
 .modal-wrapper.open {
@@ -239,6 +239,13 @@ body {
   width: 100%;
   max-width: 450px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  transform: translateY(-20px) scale(0.95);
+  transition: transform 0.25s ease-out;
+}
+
+.modal-wrapper.open .modal-window {
+  transform: translateY(0) scale(1);
 }
 
 .task-add-form {
