@@ -50,6 +50,11 @@ body {
   font-size: 0.9rem;
   color: var(--text-main);
   padding: 2px 4px;
+  transition: background-color 0.15s ease; 
+}
+
+#btn-add:hover {
+  background-color: #e0e0e0;
 }
 
 #task-search {
@@ -73,6 +78,12 @@ body {
   color: var(--text-main);
   padding: 2px 4px;
   border-radius: var(--border-radius);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.filters-container button:not(.active):hover {
+  background-color: #bae7e9;
+  color: #404347;
 }
 
 .filters-container button.active {
@@ -99,7 +110,7 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  max-height: 80vh; 
+  max-height: 70vh; 
 }
 
 .column-header {
@@ -268,6 +279,10 @@ body {
   border-radius: var(--border-radius);
   font-weight: 500;
   transition: all 0.15s ease;
+}
+
+.btn-priority:not(.active):hover {
+  background-color: #e8e8e8;
 }
 
 .btn-priority[data-priority="high"].active {
