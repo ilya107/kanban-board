@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnFilterHigh = document.getElementById("filter-high");
   const btnFilterMedium = document.getElementById("filter-medium");
   const btnFilterLow = document.getElementById("filter-low");
+  const filterButtons = [btnFilterAll, btnFilterHigh, btnFilterMedium, btnFilterLow];
 
   const btnSetPrHigh = document.querySelector("[data-priority='high']");
   const btnSetPrMedium = document.querySelector("[data-priority='medium']");
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentSelectedPriority = 'medium';
   let searchQuery = "";
   let editingTaskId = null;
+  let currentFilterPriority = 'all';
 
   renderBoard();
 
@@ -114,6 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoard();
   })
 
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      currentFilterPriority = btn.id.replace("filter-", "");
+      renderBoard();
+    });
+  });
+
   tasksContainer.addEventListener("dragstart", event => {
     const card = event.target.closest(".task-card");
     if (!card) return;
@@ -125,10 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
   tasksContainer.addEventListener("dragend", event => {
     const card = event.target.closest(".task-card");
     if (card) card.style.opacity = "1";
-
-    document.querySelectorAll(".drop-zone").forEach(zone => {
-      zone.classList.remove("drag-over");
-    });
   });
 
   tasksContainer.addEventListener("dragover", event => {
@@ -206,6 +214,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const taskDesc = task.description.toLowerCase();
 
       if (searchQuery && !taskTitle.includes(searchQuery) && !taskDesc.includes(searchQuery)) {
+        return;
+      }
+
+      if (currentFilterPriority !== "all" && task.priority !== currentFilterPriority) {
         return;
       }
 
