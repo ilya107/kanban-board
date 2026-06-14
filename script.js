@@ -226,6 +226,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      const priorityOrder = { high: 0, medium: 1, low: 2 };
+      tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+
       const cardHTML = `
       <div class="task-card" draggable="true" data-id="${task.id}">
         <span class="badge badge-${task.priority}">${task.priority}</span>
