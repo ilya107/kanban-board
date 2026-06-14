@@ -255,6 +255,21 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
   }
 
+  function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.task-card:not([style*="opacity: 0.5"])')];
+    
+    return draggableElements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+  
   function renderBoard() {
     todoZone.innerHTML = "";
     inprogressZone.innerHTML = "";
