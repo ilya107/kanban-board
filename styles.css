@@ -49,7 +49,7 @@ body {
   border-radius: var(--border-radius);
   font-size: 0.9rem;
   color: var(--text-main);
-  padding: 2px 4px;
+  padding: 4px 8px;
   transition: background-color 0.15s ease; 
 }
 
@@ -89,6 +89,21 @@ body {
 .filters-container button.active {
   background-color: #2da1d7;
   color: #e2e4e6;
+}
+
+#delete-all-btn {
+  background: var(--bg-primary);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  padding: 4px 8px;
+  transition: background-color 0.15s ease, color 0.15s ease; 
+}
+
+#delete-all-btn:hover {
+  background-color: #e43333;
+  color: #1b1f22;
 }
 
 .tasks-container {

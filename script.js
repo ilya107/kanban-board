@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const btnAdd = document.getElementById("btn-add");
   const taskSearch = document.getElementById("task-search");
+  const btnDeleteAll = document.getElementById("delete-all-btn");
 
   const btnFilterAll = document.getElementById("filter-all");
   const btnFilterHigh = document.getElementById("filter-high");
@@ -45,6 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
   btnAdd.addEventListener("click", () => {
     modalWrapper.classList.add("open");
   });
+
+  btnDeleteAll.addEventListener("click", () => {
+    tasks = [];
+    renderBoard();
+  })
 
   btnCancel.addEventListener("click", closeModalAndReset);
 
