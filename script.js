@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnFilterLow = document.getElementById("filter-low");
   const filterButtons = [btnFilterAll, btnFilterHigh, btnFilterMedium, btnFilterLow];
 
+  const dropdownTrigger = document.getElementById("dropdown-trigger");
+  const dropdownMenu = document.getElementById("dropdown-menu");
+
   const btnSetPrHigh = document.querySelector("[data-priority='high']");
   const btnSetPrMedium = document.querySelector("[data-priority='medium']");
   const btnSetPrLow = document.querySelector("[data-priority='low']");
@@ -51,6 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
     tasks = [];
     renderBoard();
   })
+
+  dropdownTrigger.addEventListener('click', () => {
+    dropdownMenu.classList.toggle('show');
+  });
+
+  window.addEventListener('click', () => {
+    const isClickedInsideTrigger = dropdownTrigger.contains(event.target);
+    const isClickedInsideMenu = dropdownMenu.contains(event.target);
+
+    if (!isClickedInsideTrigger && !isClickedInsideMenu) {
+      dropdownMenu.classList.remove('show');
+    }
+  });
 
   btnCancel.addEventListener("click", closeModalAndReset);
 
