@@ -38,7 +38,7 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-main);
   padding: 20px;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .wrapper {

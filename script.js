@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     htmlElement.classList.add("dark-theme");
     themeToggleBtn.textContent = 'Theme: dark';
   }
-  
+
   const savedTasks = localStorage.getItem("kanban-tasks");
   let tasks = savedTasks ? JSON.parse(savedTasks) : [];
 
@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let editingTaskId = null;
   let currentFilterPriority = 'all';
+  let filterByPriority = false;
 
   renderBoard();
 
@@ -91,6 +92,16 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("t-board-theme", "light");
     }
   });
+
+  filterToggleBtn.addEventListener("click", () => {
+    filterByPriority = !filterByPriority;
+    if (filterByPriority) {
+      filterToggleBtn.textContent = "Filter tasks: on";
+    } else {
+      filterToggleBtn.textContent = "Filter tasks: off";
+    }
+    renderBoard();
+  })
 
   btnCancel.addEventListener("click", closeModalAndReset);
 
@@ -253,6 +264,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let countInProgress = 0;
     let countDone = 0;
 
+    if (filterByPriority) {
+      const priorityOrder = { high: 0, medium: 1, low: 2 };
+      tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    }
+
     tasks.forEach(task => {
 
       const taskTitle = task.title.toLowerCase();
@@ -265,9 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentFilterPriority !== "all" && task.priority !== currentFilterPriority) {
         return;
       }
-
-      const priorityOrder = { high: 0, medium: 1, low: 2 };
-      tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
 
       const cardHTML = `
       <div class="task-card" draggable="true" data-id="${task.id}">
