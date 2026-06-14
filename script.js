@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const dropdownTrigger = document.getElementById("dropdown-trigger");
   const dropdownMenu = document.getElementById("dropdown-menu");
 
+  const themeToggleBtn = document.getElementById("themeToggleBtn");
+  const filterToggleBtn = document.getElementById("toggleFilteringBtn");
+
   const btnSetPrHigh = document.querySelector("[data-priority='high']");
   const btnSetPrMedium = document.querySelector("[data-priority='medium']");
   const btnSetPrLow = document.querySelector("[data-priority='low']");
@@ -36,6 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const tasksContainer = document.querySelector(".tasks-container");
 
+  const htmlElement  = document.documentElement;
+
+  const savedTheme = localStorage.getItem("t-board-theme");
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (savedTheme == 'dark' || (!savedTheme && prefersDark)) {
+    htmlElement.classList.add("dark-theme");
+    themeToggleBtn.textContent = 'Theme: dark';
+  }
+  
   const savedTasks = localStorage.getItem("kanban-tasks");
   let tasks = savedTasks ? JSON.parse(savedTasks) : [];
 
@@ -65,6 +78,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!isClickedInsideTrigger && !isClickedInsideMenu) {
       dropdownMenu.classList.remove('show');
+    }
+  });
+
+  themeToggleBtn.addEventListener("click", () => {
+    htmlElement.classList.toggle("dark-theme");
+    if (htmlElement.classList.contains('dark-theme')) {
+      themeToggleBtn.textContent = "Theme: dark";
+      localStorage.setItem("t-board-theme", 'dark')
+    } else {
+      themeToggleBtn.textContent = "Theme: light";
+      localStorage.setItem("t-board-theme", "light");
     }
   });
 
