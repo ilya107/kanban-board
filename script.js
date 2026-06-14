@@ -264,24 +264,27 @@ document.addEventListener("DOMContentLoaded", () => {
     let countInProgress = 0;
     let countDone = 0;
 
-    if (filterByPriority) {
-      const priorityOrder = { high: 0, medium: 1, low: 2 };
-      tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-    }
-
-    tasks.forEach(task => {
-
+    let filteredTasks = tasks.filter(task => {
       const taskTitle = task.title.toLowerCase();
       const taskDesc = task.description.toLowerCase();
 
       if (searchQuery && !taskTitle.includes(searchQuery) && !taskDesc.includes(searchQuery)) {
-        return;
+        return false;
       }
 
       if (currentFilterPriority !== "all" && task.priority !== currentFilterPriority) {
-        return;
+        return false;
       }
 
+      return true; 
+    });
+
+    if (filterByPriority) {
+      const priorityOrder = { high: 0, medium: 1, low: 2 };
+      filteredTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    }
+
+    filteredTasks.forEach(task => {
       const cardHTML = `
       <div class="task-card" draggable="true" data-id="${task.id}">
         <span class="badge badge-${task.priority}">${task.priority}</span>
