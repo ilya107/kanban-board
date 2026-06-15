@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let editingTaskId = null;
   let currentFilterPriority = 'all';
   let filterByPriority = false;
+  let lastMouseY = 0;
 
   renderBoard();
 
@@ -205,7 +206,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const draggingCard = tasksContainer.querySelector('.task-card[style*="opacity: 0.5"]');
     if (!draggingCard) return;
 
-    const afterElement = getDragAfterElement(dropZone, event.clientY);
+    const isMovingUp = event.clientY < lastMouseY;
+
+    const afterElement = getDragAfterElement(dropZone, event.clientY, isMovingUp);
+
+    lastMouseY = event.clientY;
 
     animateCardMove(dropZone, draggingCard, afterElement);
   });
@@ -267,12 +272,12 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
   }
 
-  function getDragAfterElement(container, y) {
+  function getDragAfterElement(container, y, isMovingUp) {
     const draggableElements = [...container.querySelectorAll('.task-card:not([style*="opacity: 0.5"])')];
     
     return draggableElements.reduce((closest, child) => {
       const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
+      const offset = isMovingUp ? (y - box.bottom) : (y - box.top);
 
       if (offset < 0 && offset > closest.offset) {
         return { offset: offset, element: child };
