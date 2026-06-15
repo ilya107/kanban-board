@@ -207,11 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const afterElement = getDragAfterElement(dropZone, event.clientY);
 
-    if (afterElement == null) {
-      dropZone.appendChild(draggingCard);
-    } else {
-      dropZone.insertBefore(draggingCard, afterElement);
-    }
+    animateCardMove(dropZone, draggingCard, afterElement);
   });
 
   tasksContainer.addEventListener("drop", event => {
@@ -313,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         c.getBoundingClientRect();
 
-        c.classlist.add('move');
+        c.classList.add('move');
         c.style.transform = '';
 
         c.addEventListener('transitionend', () => {

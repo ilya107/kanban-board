@@ -243,7 +243,12 @@ body {
 }
 
 .task-card.move {
-  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.task-card[style*="opacity: 0.5"] {
+  transition: none !important;
+  pointer-events: none !important;
 }
 
 .task-card:active {
