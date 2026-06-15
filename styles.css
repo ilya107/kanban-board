@@ -280,8 +280,12 @@ body {
   text-decoration: underline;
 }
 
+.card-info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .badge {
-  align-self: flex-start;
   font-size: 0.7rem;
   font-weight: bold;
   padding: 2px 6px;
@@ -293,6 +297,14 @@ body {
 .badge-high   { color: var(--color-high); background-color: rgba(255, 77, 79, 0.12); }
 .badge-medium { color: var(--color-medium); background-color: rgba(255, 169, 64, 0.12); }
 .badge-low    { color: var(--color-low); background-color: rgba(82, 196, 26, 0.12); }
+
+.task-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: var(--border-radius);
+  background-color: rgba(80, 95, 121, 0.15);
+}
 
 .modal-wrapper {
   position: fixed;

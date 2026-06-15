@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdownMenu.classList.toggle('show');
   });
 
-  window.addEventListener('click', () => {
+  window.addEventListener('click', event => {
     const isClickedInsideTrigger = dropdownTrigger.contains(event.target);
     const isClickedInsideMenu = dropdownMenu.contains(event.target);
 
@@ -258,6 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function addTask() {
     const newTask = {
       id: Date.now().toString(),
+      date: new Date().toISOString().split('T')[0],
       title: titleInput.value.trim(),
       description: descriptionInput.value.trim(),
       column: 'todo',
@@ -317,7 +318,10 @@ document.addEventListener("DOMContentLoaded", () => {
     filteredTasks.forEach(task => {
       const cardHTML = `
       <div class="task-card" draggable="true" data-id="${task.id}">
-        <span class="badge badge-${task.priority}">${task.priority}</span>
+        <div class="card-info-container">
+          <span class="badge badge-${task.priority}">${task.priority}</span>
+          <span class="task-date">${task.date}</span>
+        </div>
         <h3>${task.title}</h3>
         <p>${task.description}</p>
         <div class="card-actions">
