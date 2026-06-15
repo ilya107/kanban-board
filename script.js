@@ -286,6 +286,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   }
   
+  function animateCardMove(zone, card, afterElement) {
+    const cards = [...zone.querySelectorAll('.task-card:not([style*="opacity: 0.5"])')];
+
+    const firstPositions = cards.map(c => ({
+      element: c,
+      top: c.getBoundingClientRect().top
+    }));
+
+    if (afterElement == null) {
+      zone.appendChild(card);
+    } else {
+      zone.insertBefore(card, afterElement);
+    }
+
+    cards.forEach(c => {
+      const first = firstPositions.find(p => p.element === c);
+      if (!first) return;
+
+      const lastTop = c.getBoundingClientRect().top;
+      const deltaY = first.top - lastTop;
+
+      if (deltaY !== 0) {
+        c.style.transition = 'none';
+        c.style.transform = `translateY(${deltaY}px)`;
+
+        c.getBoundingClientRect();
+
+        c.classlist.add('move');
+        c.style.transform = '';
+
+        c.addEventListener('transitionend', () => {
+          c.classList.remove('move');
+          c.style.transition = '';
+        }, { once: true });
+      }
+    });
+  }
+
   function renderBoard() {
     todoZone.innerHTML = "";
     inprogressZone.innerHTML = "";
