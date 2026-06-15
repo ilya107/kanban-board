@@ -194,23 +194,13 @@ document.addEventListener("DOMContentLoaded", () => {
   tasksContainer.addEventListener("dragend", event => {
     const card = event.target.closest(".task-card");
     if (card) card.style.opacity = "1";
-
-    document.querySelectorAll(".drop-zone").forEach(zone => {
-      zone.classList.remove("drag-over");
-    });
   });
 
   tasksContainer.addEventListener("dragover", event => {
     const dropZone = event.target.closest(".drop-zone");
     if (!dropZone) return;
 
-    event.preventDefault();
-
-    document.querySelectorAll(".drop-zone").forEach(zone => {
-      zone.classList.remove("drag-over");
-    });
-
-    dropZone.classList.add("drag-over");
+    event.preventDefault();  
 
     const draggingCard = tasksContainer.querySelector('.task-card[style*="opacity: 0.5"]');
     if (!draggingCard) return;
@@ -229,7 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!dropZone) return;
 
     event.preventDefault();
-    dropZone.classList.remove("drag-over");
 
     let newTaskOrder = [];
 
@@ -251,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     tasks = newTaskOrder;
-    console.log(tasks);
     renderBoard();
   })
 
